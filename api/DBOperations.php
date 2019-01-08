@@ -55,7 +55,7 @@ class DBOperations {
 		$rows = array();
 		$result = $this -> query($query);
 		if($result === false) {
-			return false;
+			return $rows;
 		}
 		while ($row = $result -> fetch_assoc()) {
 			$rows[] = $row;

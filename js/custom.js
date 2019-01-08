@@ -3,12 +3,11 @@ function scrollAction() {
   if (scrollValue > 50) {
       $('#mysiteNav').addClass('navbar-white');
       $('#mysiteNav').removeClass('navbar-default');
-      $('.bg-overlay').css('background-color', 'rgba(33,33,33,' +  (0.17 + (scrollValue / 1000)) + ')');
   }
   else {
       $('#mysiteNav').addClass('navbar-default');
       $('#mysiteNav').removeClass('navbar-white');
-      $('.bg-overlay').css('background-color', 'rgba(33,33,33,0.1)');
+
   }
 
   $('.paralax').each(function(){
