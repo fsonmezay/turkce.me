@@ -12,7 +12,8 @@
 
 </head>
 
-<body data-ng-app="turkceme" data-ng-controller="TurkceAppController" ng-cloak>
+<body data-ng-app="turkceme" data-ng-controller="TurkceAppController"
+	ng-cloak>
 	<header class="site-header">
 		<div class="wrapper">
 			<nav class="navbar navbar-default navbar-fixed-top" id="mysiteNav">
@@ -48,44 +49,58 @@
 			</nav>
 		</div>
 	</header>
-	
+
 	<div class="page-wrap" id="page-wrap" style="">
-		<div class="jumbotron jumbotron-fluid ">
-			<div class="container">
-				<div class="row animated slow fadeIn">
-					<div class="col-md-12 col-sm-12">
-						<div class="search-wrapper" key-trap>
-							<input autofocus ng-keydown="hoverItem(selectionIndex)" type="text" ng-change="search(searchKey)" ng-model="searchKey" class="search" placeholder="Search Yap" name="key" />
-							<div id="search-results" class="animated slow fadeIn" data-ng-if="searchResult.length > 0">
-								<ul>
-									<li data-ng-repeat="item in searchResult track by $index">
-										<a href="" ng-click="open($index)" ng-class="{'active': $index == focusIndex}">
-											<span ng-bind-html="highlight(item.locution, searchKey)"></span>
-										</a>
-									</li>
-								</ul>
+		<div class="outer">
+			<div class="middle">
+				<div class="inner">
+					<div class="container">
+						<div class="row animated slow fadeIn">
+							<div class="col-md-12">
+								<div class="search-wrapper" key-trap>
+									<input autofocus
+										type="text" ng-change="search(searchKey)" ng-model="searchKey"
+										class="search" placeholder="Search Yap" name="key" />
+									<div id="search-results" class="animated slow fadeIn"
+										data-ng-if="searchResult.length > 0">
+										<ul>
+											<li data-ng-repeat="item in searchResult track by $index">
+												<a href="" ng-click="open($index)"
+												ng-class="{'active': $index == focusIndex}"> <span
+													ng-bind-html="highlight(item.locution, searchKey)"></span>
+											</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+								
+						<div data-ng-if="searchKey && searchResult.length == 0" class="animated slow fadeIn">
+								<p>
+								<strong>{{searchKey}}</strong> terimini bulamadık, anlamını aşağıya yazıp katıkda bulunmak istemez misiniz?
+							</p>
+							<form name="newLocution" action="?" method="post">
+								<input ng-required required 
+								 data-ng-repeat="locution in locutions track by $index" 
+								 type="text" placeholder="Türkçesi"
+								 class="search" name="locution[]" ng-model="locution" value="{{locution}}" /> <br />
+								<br /> 
+								<a href="" class="btn btn-success" data-ng-click="addMoreLocutions()">Ekle</a>
+								<input type="submit" class="btn-outline" value="Kaydet">
+								
+
+							</form>
+						</div>
 							</div>
 						</div>
-						<p class="lead animated slow fadeIn" data-ng-if="searchResult.length == 0 && searchKey.length > 0"><strong>{{searchKey}}</strong> terimini bulamadık, anlamını aşağıya yazıp katıkda bulunmak istemez misiniz?</p>
-						
 					</div>
 				</div>
-				
-				<div data-ng-if="searchResult.length == 0 && searchKey.length > 0">
-				<form name="newLocution" action="?" method="post">
-					<input ng-required required type="text" placeholder="Anlamı?" class="search" name="locution" />
-					<br/><br/>
-					<input type="submit" class="btn btn-default" value="Ekle">
-				</form>
-			</div>
 			</div>
 		</div>
-		
-		<div class="container" style="padding-top:60px; padding-bottom:80px;">
-			
-		</div>
+
+
+
 	</div>
-	
+
 	<!-- footer class="site-footer">
 		<div class="container">
 			<div class="row">
@@ -103,11 +118,11 @@
 	</footer-->
 </body>
 
-  <script type="text/javascript" src="./js/jquery-1.12.4.min.js"></script>
-  <script type="text/javascript" src="./js/jquery.easing.min.js"></script>
-  <script type="text/javascript" src="./js/angular.js"></script>
-  <script type="text/javascript" src="./js/angular-sanitize.min.js"></script>
-  <script type="text/javascript" src="./js/angular-route.min.js"></script>
-  <script type="text/javascript" src="./js/turkceme.js"></script>
-  <script type="text/javascript" src="./js/custom.js"></script>
+<script type="text/javascript" src="./js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="./js/jquery.easing.min.js"></script>
+<script type="text/javascript" src="./js/angular.js"></script>
+<script type="text/javascript" src="./js/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="./js/angular-route.min.js"></script>
+<script type="text/javascript" src="./js/turkceme.js"></script>
+<script type="text/javascript" src="./js/custom.js"></script>
 </html>

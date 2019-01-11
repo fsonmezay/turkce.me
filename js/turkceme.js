@@ -18,20 +18,29 @@
   app.controller('TurkceAppController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
 	  $scope.searchKey="";
 	  $scope.searchResult = [];
-	  $scope.focusIndex = null;
+		$scope.focusIndex = null;
+		$scope.locutions = [""];
 	  
 	  $scope.search = function(value) {
 		  if(value.length > 0) {
 			  $http.post('search', {query: value}).then(function(response) {
-				  $scope.searchResult = response.data;
-				  $scope.focusIndex = 0;
+					$scope.cleanUp(0, response.data);
 			  });
 		  }
 		  else {
-			  $scope.searchResult = [];
-			  $scope.focusIndex = null;
+			 $scope.cleanUp(null, []);
 		  }
-	  };
+		};
+		
+		$scope.addMoreLocutions = function() {
+			$scope.locutions.push("");
+		};
+
+		$scope.cleanUp = function(focusIndex, searchResult) {
+			$scope.locutions = [""];
+			$scope.searchResult = searchResult;
+			$scope.focusIndex = focusIndex;
+		};
 	  
 	  $scope.highlight = function(text, search) {
 		  if (!search) {
