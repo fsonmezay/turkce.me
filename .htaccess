@@ -1,6 +1,8 @@
 
 RewriteEngine On
 RewriteRule ^/?(search)/?$ api/DictionaryApi.php
+RewriteRule ^/?(create)/?$ api/DictionaryApi.php
+RewriteRule ^/?(get)/?$ api/DictionaryApi.php
 
 RewriteRule ^/?(blog)/?$ blog.php
 RewriteRule ^/?(blog)/([^/]+)?$ blog.php?category=$2

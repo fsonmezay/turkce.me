@@ -13,7 +13,6 @@ class DBOperations {
 			     echo "message: " . $e->message;   // not in live code obviously...
 			     exit;
 			}
-
 		}
 
 		if(self::$connection === false) {
@@ -21,6 +20,14 @@ class DBOperations {
 		}
 		self::$connection->set_charset("utf8");
 		return self::$connection;
+	}
+
+	public function getLastErrorNumber() {
+		return self::$connection->errno;
+	}
+
+	public function getLastError() {
+		return self::$connection->error;
 	}
 
 	# close connection
@@ -37,6 +44,7 @@ class DBOperations {
 		try {
 			return $this->connect()->query($query);
 		} catch (Exception $e ) {
+			return $e;
 			echo "message: " . $e->message;   // not in live code obviously...
 			exit;
 		}

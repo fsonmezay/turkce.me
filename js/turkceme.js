@@ -1,5 +1,22 @@
 (function() {
-  var app = angular.module('turkceme', ['ngRoute', 'filters', 'ngSanitize']);
+	var app = angular.module('turkceme', ['ngRoute', 'filters', 'ngSanitize']);
+	
+	app.config(['$routeProvider',
+		function($routeProvider) {
+			$routeProvider
+				.when('/', {
+					controller: 'TurkceAppController'
+				})
+				.when('/form', {
+					templateUrl: 'partials/form.html',
+					controller: 'FormController'
+				})
+				.when('/display/:item', {
+					templateUrl: 'partials/result.html',
+					controller: 'ResultController'
+				})
+				.otherwise('/');
+	}]);
 
   angular.module('filters', []).filter('htmlToPlaintext', function() {
     return function(text) {
@@ -15,31 +32,94 @@
 	  };
 	});
 
-  app.controller('TurkceAppController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
-	  $scope.searchKey="";
-	  $scope.searchResult = [];
-		$scope.focusIndex = null;
+	app.controller('FormController', ['$rootScope', '$scope', '$http', '$location', function ($rootScope, $scope, $http, $location) {
 		$scope.locutions = [""];
-	  
-	  $scope.search = function(value) {
-		  if(value.length > 0) {
-			  $http.post('search', {query: value}).then(function(response) {
-					$scope.cleanUp(0, response.data);
-			  });
-		  }
-		  else {
-			 $scope.cleanUp(null, []);
-		  }
-		};
+		$scope.secure = "";
+
+		if($rootScope.searchKey.length < 1) {
+			$location.path("/");
+		}
 		
+		$scope.submit = function name() {
+			var request = {searchKey: $rootScope.searchKey, locutions: $scope.locutions, captcha: $scope.secure};
+			if($scope.secure.length == 0) {
+				$scope.formError = true;
+				$scope.errorMessage = "Güvenlik kodu zprunludur.";
+			}
+			else {
+				$http.post('create', request).then(function(response){
+					debugger;
+					if(response.data.isSuccess) {
+						$location.path("/display/"+response.data.locution_key);
+					}
+					else {
+						$scope.formError = true;
+						$scope.errorMessage = response.data.message;
+						$("#captcha-img").attr("src", "./api/captcha.php"); //reload
+						$scope.secure = "";
+					}
+					
+				});
+			}
+		};
+
 		$scope.addMoreLocutions = function() {
 			$scope.locutions.push("");
 		};
 
+		$scope.removeLocution = function(index) {
+			$scope.locutions.splice(index, 1);
+		};
+
+	}]);
+	
+	app.controller('ResultController', ['$rootScope', '$scope', '$location', '$http', '$routeParams', function ($rootScope,$scope, $location, $http, $routeParams) {
+		$rootScope.isSearchVisible = false;
+		$scope.close = function() {
+			$rootScope.searchKey="";
+			$scope.$parent.cleanUp();
+			$location.path("/");
+		};
+
+//		$routeParams.item
+		$http.get('get?key='+$routeParams.item).then(function(response) {
+			$scope.selectedItem = response.data;
+			if($scope.selectedItem.itemName == null) {
+				$scope.close();
+			}
+		});
+
+	}]);
+
+  app.controller('TurkceAppController', ['$rootScope', '$scope', '$http', '$sce', '$location', function($rootScope, $scope, $http, $sce, $location) {
+	  $rootScope.searchKey="";
+	  $scope.searchResult = [];
+		$scope.focusIndex = null;
+		$rootScope.isSearchVisible = true;
+	  
+	  $scope.search = function() {
+		  if($rootScope.searchKey.length > 0) {
+			  $http.get('search?query='+$rootScope.searchKey).then(function(response) {
+					$scope.cleanUp(0, response.data.locutions);
+					if(response.data.locutions.length == 0) {
+						$location.path('/form');
+						$scope.locutions.push("");
+					}else {
+						$location.path('/');
+					}
+			  });
+		  }
+		  else {
+			 $location.path("/");
+			 $scope.cleanUp(null, []);
+			}
+		};
+
 		$scope.cleanUp = function(focusIndex, searchResult) {
-			$scope.locutions = [""];
+			$scope.locutions = [];
 			$scope.searchResult = searchResult;
 			$scope.focusIndex = focusIndex;
+			$rootScope.isSearchVisible = true;
 		};
 	  
 	  $scope.highlight = function(text, search) {
@@ -49,12 +129,20 @@
 		  return $sce.trustAsHtml(text.replace(new RegExp(search, 'gi'), '<span class="highlightedText">$&</span>'));
 	  };
 	  
-	  $scope.open = function ( index ) {
-	    console.log('opening : ', $scope.searchResult[index].locution_key );
-	  };
+	  $scope.open = function ( itemKey ) {
+			$rootScope.isSearchVisible = false;
+			$rootScope.itemKey = itemKey;
+			$location.path('/display/'+itemKey);
+		};
 	  
 	  $scope.keys = [];
-	  $scope.keys.push({ code: 13, action: function() { $scope.open( $scope.focusIndex ); }});
+	  $scope.keys.push({ code: 13, action: function() { 
+			if($location.path() === "/") {
+				var itemToOpen = $scope.searchResult[$scope.focusIndex].locution_key;
+				$scope.open( itemToOpen ); 
+			}
+			
+		}});
 	  $scope.keys.push({ code: 27, action: function() { 
 		  	$scope.searchResult = [];	  	
 		  }

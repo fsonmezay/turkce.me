@@ -1,0 +1,18 @@
+<div class="row" ng-controller="ResultController">
+    <div class="col-md-8 col-sm-12 col-lg-8 col-xl-8 result">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <h1>
+                    <span ng-click="close()" class="pull-right close-icon circle-icon">+</span>
+                    {{selectedItem.itemName}}
+                </h1>
+                
+            </div>
+        </div>
+        <p>
+            <ul>
+                <li data-ng-repeat="definition in selectedItem.definitions track by $index">{{definition.definition}}</li>
+            </ul>
+        </p>
+    </div>
+</div>

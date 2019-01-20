@@ -9,8 +9,8 @@ class StringOperations{
 	*
 	*/
 	public function seoFriendlyString($string){
-		$curChar = array("ç", "Ç", "ğ", "Ğ", "ı", "I", "İ", "ö", "Ö", "ş", "Ş", "ü", "Ü", " ");
-		$newChar = array("c", "c", "g", "g", "i", "i", "i", "o", "o", "s", "s", "u", "u", "-");
+		$curChar = array("ç", "Ç", "ğ", "Ğ", "ı", "I", "İ", "ö", "Ö", "ş", "Ş", "ü", "Ü", " ", "'", '"');
+		$newChar = array("c", "c", "g", "g", "i", "i", "i", "o", "o", "s", "s", "u", "u", "-", "", '');
 		$myString = $string;
 		for($i=0;$i<sizeof($curChar);$i++){
 			$myString = str_replace($curChar[$i],$newChar[$i],$myString);

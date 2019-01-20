@@ -1,0 +1,33 @@
+<div>
+    <div data-ng-controller="FormController" class="animated slow fadeIn">
+        <p>
+            <strong>{{searchKey}}</strong> terimini bulamadık, anlamını aşağıya yazıp katıkda bulunmak istemez misiniz?
+        </p>
+        <form name="newLocution" ng-submit="submit(this)">
+            <div data-ng-repeat="locution in locutions track by $index" class="locution-holder">
+                <input ng-required required  autocomplete="off"
+                    type="text" placeholder="Türkçesi"
+                    class="search locution" name="locution[]" ng-model="locutions[$index]" />
+                <div class="pull-right circle-icon-wrapper">
+                    <a href="" tabindex="-1" class="circle-icon remove-icon" data-ng-if="$index < locutions.length-1" data-ng-click="removeLocution($index)">-</a>
+                    <a href="" tabindex="-1" class="circle-icon add-icon" data-ng-if="locutions.length < 3 && $index == locutions.length-1 && locution.length > 0" data-ng-click="addMoreLocutions()">+</a>
+                </div>
+            </div>
+            <div class="row" style="margin-top:40px;">
+                <div class="col-md-4 col-sm-4">
+                    <input ng-required required="required" autocomplete="off"
+                        type="text" placeholder="Güvenlik Kodu"
+                        class="search locution" name="secure" ng-model="secure" />
+                        <p data-ng-if="formError">{{errorMessage}}</p>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <img src="./api/captcha.php" id="captcha-img" />
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <input class="btn-save" data-ng-if="secure && locutions[0] && $root.searchKey" type="submit" class="btn-outline" value="Kaydet">
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>

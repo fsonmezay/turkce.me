@@ -7,6 +7,9 @@
 <title>Bilişimciler İçin Türkçe Sözlük</title>
 <meta name="description" content="">
 
+<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+<link rel="icon" href="./favicon.ico" type="image/x-icon">
+
 <link rel="stylesheet" href="./css/main.css">
 <link rel="canonical" href="https://turkce.me/">
 
@@ -19,7 +22,7 @@
 			<nav class="navbar navbar-default navbar-fixed-top" id="mysiteNav">
 				<div class="container animated slow fadeIn">
 					<div class="row">
-						<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
+						<div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
 							<div class="navbar-header">
 								<div class="collapsed">
 									<div style="padding-top: 16px;">
@@ -36,14 +39,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-8 col-sm-8 col-xs-12 col-lg-8">
-							<div id="navbar" class="collapse navbar-collapse">
-								<ul class="nav navbar-nav pull-right">
-									<li><a class="page-scroll" href="#home"> Anasayfa</a></li>
-									<li><a class="page-scroll" href="#hakkinda"> Hakkında</a></li>
-								</ul>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 			</nav>
@@ -55,17 +51,17 @@
 			<div class="middle">
 				<div class="inner">
 					<div class="container">
-						<div class="row animated slow fadeIn">
+						<div class="row animated slow fadeIn" key-trap>
 							<div class="col-md-12">
-								<div class="search-wrapper" key-trap>
-									<input autofocus
-										type="text" ng-change="search(searchKey)" ng-model="searchKey"
+								<div class="search-wrapper" data-ng-if="$root.isSearchVisible" >
+									<input autofocus autocomplete="off"
+										type="text" ng-change="search()" ng-model="$root.searchKey"
 										class="search" placeholder="Search Yap" name="key" />
 									<div id="search-results" class="animated slow fadeIn"
 										data-ng-if="searchResult.length > 0">
 										<ul>
 											<li data-ng-repeat="item in searchResult track by $index">
-												<a href="" ng-click="open($index)"
+												<a href="" ng-click="open(item.locution_key)"
 												ng-class="{'active': $index == focusIndex}"> <span
 													ng-bind-html="highlight(item.locution, searchKey)"></span>
 											</a>
@@ -73,31 +69,13 @@
 										</ul>
 									</div>
 								</div>
-								
-						<div data-ng-if="searchKey && searchResult.length == 0" class="animated slow fadeIn">
-								<p>
-								<strong>{{searchKey}}</strong> terimini bulamadık, anlamını aşağıya yazıp katıkda bulunmak istemez misiniz?
-							</p>
-							<form name="newLocution" action="?" method="post">
-								<input ng-required required 
-								 data-ng-repeat="locution in locutions track by $index" 
-								 type="text" placeholder="Türkçesi"
-								 class="search" name="locution[]" ng-model="locution" value="{{locution}}" /> <br />
-								<br /> 
-								<a href="" class="btn btn-success" data-ng-click="addMoreLocutions()">Ekle</a>
-								<input type="submit" class="btn-outline" value="Kaydet">
-								
-
-							</form>
-						</div>
+								<ng-view onload="search"></ng-view>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
-
 
 	</div>
 
