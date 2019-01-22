@@ -15,8 +15,7 @@
 
 </head>
 
-<body data-ng-app="turkceme" data-ng-controller="TurkceAppController"
-	ng-cloak>
+<body data-ng-app="turkceme" data-ng-controller="TurkceAppController" class="ng-cloak">
 	<header class="site-header">
 		<div class="wrapper">
 			<nav class="navbar navbar-default navbar-fixed-top" id="mysiteNav">
@@ -39,14 +38,19 @@
 								</div>
 							</div>
 						</div>
-						
+						<div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 0px;">
+							<ul class="nav navbar-nav pull-right">
+								<li><a href="#!/hakkinda">Hakkında</a></li>
+								<li><a href="https://github.com/fsonmezay/turkce.me" target="_blank">Github</a></li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</nav>
 		</div>
 	</header>
 
-	<div class="page-wrap" id="page-wrap" style="">
+	<div class="page-wrap" id="page-wrap">
 		<div class="outer">
 			<div class="middle">
 				<div class="inner">
@@ -79,7 +83,6 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 
 	<!-- footer class="site-footer">

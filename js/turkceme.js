@@ -11,9 +11,13 @@
 					templateUrl: 'partials/form.html',
 					controller: 'FormController'
 				})
-				.when('/display/:item', {
+				.when('/goruntule/:item', {
 					templateUrl: 'partials/result.html',
 					controller: 'ResultController'
+				})
+				.when('/hakkinda', {
+					templateUrl:'partials/about.html',
+					controller: 'HakkindaController'
 				})
 				.otherwise('/');
 	}]);
@@ -50,7 +54,7 @@
 				$http.post('create', request).then(function(response){
 					debugger;
 					if(response.data.isSuccess) {
-						$location.path("/display/"+response.data.locution_key);
+						$location.path("/goruntule/"+response.data.locution_key);
 					}
 					else {
 						$scope.formError = true;
@@ -89,6 +93,15 @@
 			}
 		});
 
+	}]);
+
+	app.controller('HakkindaController', ['$rootScope', '$scope', '$location', function ($rootScope,$scope, $location) {
+		$rootScope.isSearchVisible = false;
+		$scope.close = function() {
+			$rootScope.searchKey="";
+			$scope.$parent.cleanUp();
+			$location.path("/");
+		};
 	}]);
 
   app.controller('TurkceAppController', ['$rootScope', '$scope', '$http', '$sce', '$location', function($rootScope, $scope, $http, $sce, $location) {
@@ -132,7 +145,7 @@
 	  $scope.open = function ( itemKey ) {
 			$rootScope.isSearchVisible = false;
 			$rootScope.itemKey = itemKey;
-			$location.path('/display/'+itemKey);
+			$location.path('/goruntule/'+itemKey);
 		};
 	  
 	  $scope.keys = [];
