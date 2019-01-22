@@ -4,8 +4,9 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <h1>
                     <span ng-click="close()" class="pull-right close-icon circle-icon">+</span>
-                    {{selectedItem.itemName}}
+                    {{selectedItem.locution.name}}
                 </h1>
+                <h5 style="color:rgba(0,0,0, .4); padding:0px; margin:-20px 0px 20px;" data-ng-if="selectedItem.locution.state == 0">Henüz Onaylanmadı</h5>
                 
             </div>
         </div>

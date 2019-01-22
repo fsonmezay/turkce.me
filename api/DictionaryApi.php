@@ -41,16 +41,16 @@ function createDefinitions($definitions, $locutionId) {
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	if(isset($_GET['query']) && strlen($_GET['query']) > 0) {
 		$searchKey = $stringOp->veri_replace($_GET['query']);
-		$query = "SELECT locution, locution_key FROM tm_locutions where locution like '%".$searchKey."%' order by locution LIMIT 5";
+		$query = "SELECT locution, locution_key, state FROM tm_locutions where locution like '%".$searchKey."%' order by locution LIMIT 5";
 		$result["locutions"] = $dbOp->select($query);
 		$result["isSuccess"] = count($result["locutions"]) > 0;
 	}
 	else if(isset($_GET['key']) && strlen($_GET['key']) > 0) {
 		$item = $stringOp->veri_replace($_GET['key']);
-		$query = "SELECT d.* FROM tm_locutions l, tm_definitions d where d.locution_id = l.id and l.locution_key='".$item."' order by d.definition";
+		$query = "SELECT d.definition, d.definition_key, d.id, d.state FROM tm_locutions l, tm_definitions d where d.locution_id = l.id and l.locution_key='".$item."' order by d.definition";
 		$result["isSuccess"] = true;
 		$result["definitions"] = $dbOp->select($query);
-		$result['itemName'] = $dbOp->select("SELECT locution FROM tm_locutions where locution_key='".$item."'")[0]["locution"];
+		$result['locution'] = $dbOp->select("SELECT locution as name, state FROM tm_locutions where locution_key='".$item."'")[0];
 	}
 }
 else if ($_SERVER['REQUEST_METHOD'] === 'POST') {

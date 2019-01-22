@@ -61,10 +61,13 @@
 										data-ng-if="searchResult.length > 0">
 										<ul>
 											<li data-ng-repeat="item in searchResult track by $index">
+													<div class="circle-status" data-ng-class="{1:'active', 0:'inactive'}[item.state]"> </div>
 												<a href="" ng-click="open(item.locution_key)"
-												ng-class="{'active': $index == focusIndex}"> <span
+													ng-class="{'active': $index == focusIndex}"> 
+														<span
 													ng-bind-html="highlight(item.locution, searchKey)"></span>
-											</a>
+													<span style="color:#F65667; font-size:14px; float:right; margin-top:10px;" data-ng-if="item.state==0">Henüz Onaylanmadı!..</span>
+												</a>
 											</li>
 										</ul>
 									</div>

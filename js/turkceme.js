@@ -84,7 +84,7 @@
 //		$routeParams.item
 		$http.get('get?key='+$routeParams.item).then(function(response) {
 			$scope.selectedItem = response.data;
-			if($scope.selectedItem.itemName == null) {
+			if($scope.selectedItem.locution.name == null) {
 				$scope.close();
 			}
 		});
