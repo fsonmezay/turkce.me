@@ -52,7 +52,6 @@
 			}
 			else {
 				$http.post('create', request).then(function(response){
-					debugger;
 					if(response.data.isSuccess) {
 						$location.path("/goruntule/"+response.data.locution_key);
 					}

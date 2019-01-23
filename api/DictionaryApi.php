@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 		$query = "SELECT d.definition, d.definition_key, d.id, d.state FROM tm_locutions l, tm_definitions d where d.locution_id = l.id and l.locution_key='".$item."' order by d.definition";
 		$result["isSuccess"] = true;
 		$result["definitions"] = $dbOp->select($query);
-		$result['locution'] = $dbOp->select("SELECT locution as name, state FROM tm_locutions where locution_key='".$item."'")[0];
+		$result['locution'] = $dbOp->select("SELECT locution as name, locution_key, state FROM tm_locutions where locution_key='".$item."'")[0];
 	}
 }
 else if ($_SERVER['REQUEST_METHOD'] === 'POST') {

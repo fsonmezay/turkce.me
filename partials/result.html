@@ -1,19 +1,33 @@
-<div class="row" ng-controller="ResultController">
-    <div class="col-md-8 col-sm-12 col-lg-8 col-xl-8 result">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <h1>
-                    <span ng-click="close()" class="pull-right close-icon circle-icon">+</span>
-                    {{selectedItem.locution.name}}
-                </h1>
-                <h5 style="color:rgba(0,0,0, .4); padding:0px; margin:-20px 0px 20px;" data-ng-if="selectedItem.locution.state == 0">Henüz Onaylanmadı</h5>
-                
+<div ng-controller="ResultController">
+    <div class="row">
+        <div class="col-md-8 col-sm-12 col-lg-8 col-xl-8 result">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <h1>
+                        <a href="#" ng-click="close()" class="pull-right close-icon circle-icon">+</a>
+                        {{selectedItem.locution.name}}
+                    </h1>
+                    <h5 style="color:rgba(0,0,0, .4); padding:0px; margin:-20px 0px 20px;" data-ng-if="selectedItem.locution.state == 0">Henüz Onaylanmadı</h5>
+                    
+                </div>
             </div>
+            <p>
+                <ul>
+                    <li data-ng-repeat="definition in selectedItem.definitions track by $index">{{definition.definition}}</li>
+                </ul>
+            </p>
         </div>
-        <p>
-            <ul>
-                <li data-ng-repeat="definition in selectedItem.definitions track by $index">{{definition.definition}}</li>
-            </ul>
-        </p>
+    </div>
+    <div class="row">
+        <script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
+        <div class="col-md-8 col-sm-12 col-lg-8 col-xl-8">
+            <a class="twitter-share-button"
+            data-lang="tr"
+            data-text="Plaza Türkçesi'ni bırakıyoruz! {{selectedItem.locution.name}} demiyoruz."
+            data-url="https://turkce.me/#!/goruntule/{{selectedItem.locution.locution_key}}"
+            data-hashtags="plazaTurkcesi, turkce"
+            href="https://twitter.com/intent/tweet">
+        </a>
+        </div>
     </div>
 </div>
